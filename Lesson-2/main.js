@@ -1,26 +1,40 @@
-const products = [
-  { id: 1, title: "Notebook", price: 1000 },
-  { id: 2, title: "Mouse", price: 100 },
-  { id: 3, title: "Keyboard", price: 250 },
-  { id: 4, title: "Gamepad", price: 150 },
-];
+class GoodsItem {
+  constructor(title, price) {
+    this.title = title;
+    this.price = price;
+  }
+  render() {
+    return `
+      <div class="goods-item">
+        <h3>${this.title}</h3>
+        <p>${this.price}</p>
+      </div>
+      `;
+  }
+}
 
-const renderProduct = (title = "Unknown", price = 0) => {
-  return `
-    <div class="product-item">
-        <h3>${title}</h3>
-        <p>$${price}</p>
-        <button class="buy-btn">Добавить</button>
-    </div>
-    `;
-};
+class GoodsList {
+  constructor() {
+    this.goods = [];
+  }
+  fetchGoods() {
+    this.goods = [
+      { title: "Shirt", price: 150 },
+      { title: "Socks", price: 50 },
+      { title: "Jacket", price: 350 },
+      { title: "Shoes", price: 250 },
+    ];
+  }
+  render() {
+    let listHtml = "";
+    this.goods.forEach((good) => {
+      const goodItem = new GoodsItem(good.title, good.price);
+      listHtml += goodItem.render();
+    });
+    document.querySelector(".goods-list").innerHTML = listHtml;
+  }
+}
 
-const renderProducts = (products) => {
-  document.querySelector(".products").innerHTML = products
-    .map((product) => {
-      return renderProduct(product.title, product.price);
-    })
-    .join("");
-};
-
-renderProducts(products);
+const list = new GoodsList();
+list.fetchGoods();
+list.render();

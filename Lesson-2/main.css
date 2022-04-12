@@ -3,14 +3,14 @@ header {
   justify-content: end;
 }
 
-.products {
+.goods-list {
   display: grid;
   grid-template-columns: repeat(6, 200px);
   gap: 30px;
   grid-auto-flow: column;
 }
 
-.product-item {
+.goods-item {
   display: flex;
   flex-direction: column;
   align-items: center;
