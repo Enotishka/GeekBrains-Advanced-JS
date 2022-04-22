@@ -70,28 +70,43 @@ class CartItem {
   }
 }
 
-function makeGETRequest(url, callback) {
-  var xhr;
-  if (window.XMLHttpRequest) {
-    xhr = new XMLHttpRequest();
-  } else if (window.ActiveXObject) {
-    xhr = new ActiveXObject("Microsoft.XMLHTTP");
-  }
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      callback(xhr.responseText);
-    }
-  };
-  xhr.open("GET", url, true);
-  xhr.send();
-}
-
+const searchButton = document.querySelector(".search-button");
+const searchInput = document.querySelector(".goods-search");
 searchButton.addEventListener("click", (e) => {
   const value = searchInput.value;
   list.filterGoods(value);
 });
 
-const list = new GoodsList();
-list.fetchGoods(() => {
-  list.render();
+const app = new Vue({
+  el: "#app",
+  data: {
+    goods: [],
+    filteredGoods: [],
+    searchLine: "",
+  },
+  methods: {
+    makeGETRequest(url, callback) {
+      const API_URL =
+        "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
+      var xhr;
+      if (window.XMLHttpRequest) {
+        xhr = new XMLHttpRequest();
+      } else if (window.ActiveXObject) {
+        xhr = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          callback(xhr.responseText);
+        }
+      };
+      xhr.open("GET", url, true);
+      xhr.send();
+    },
+  },
+  mounted() {
+    this.makeGETRequest(`${API_URL}/catalogData.json`, (goods) => {
+      this.goods = JSON.parse(goods);
+      this.filteredGoods = JSON.parse(goods);
+    });
+  },
 });
