@@ -15,16 +15,31 @@
   <body>
     <div id="app">
       <header>
-        <input type="text" class="goods-search" />
-        <button class="search-button" type="button">Искать</button>
-        <button class="cart-button" type="button">Корзина</button>
+        <input v-model="searchLine" type="text" class="goods-search" />
+        <button @click="onSearch" class="search-button" type="button">
+          Искать
+        </button>
+        <button
+          @click="isVisibleCart=!isVisibleCart"
+          class="cart-button"
+          type="button"
+        >
+          Корзина
+        </button>
       </header>
       <main>
+        <div class="cart" v-if="isVisibleCart">
+          <div class="goods-item" v-for="good in cart.contents">
+            <h3>{{ good.product_name }}</h3>
+            <p>{{ good.price }}</p>
+          </div>
+        </div>
         <div class="goods-list">
           <div class="goods-item" v-for="good in filteredGoods">
             <h3>{{ good.product_name }}</h3>
             <p>{{ good.price }}</p>
           </div>
+          <p v-if="filteredGoods.length===0">Нет данных</p>
         </div>
       </main>
     </div>

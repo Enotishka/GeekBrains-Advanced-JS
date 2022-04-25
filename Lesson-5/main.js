@@ -31,13 +31,7 @@ class GoodsList {
       cb();
     });
   }
-  filterGoods(value) {
-    const regexp = new RegExp(value, "i");
-    this.filteredGoods = this.goods.filter((good) =>
-      regexp.test(good.product_name)
-    );
-    this.render();
-  }
+
   render() {
     let listHtml = "";
     this.filteredGoods.forEach((good) => {
@@ -70,19 +64,14 @@ class CartItem {
   }
 }
 
-const searchButton = document.querySelector(".search-button");
-const searchInput = document.querySelector(".goods-search");
-searchButton.addEventListener("click", (e) => {
-  const value = searchInput.value;
-  list.filterGoods(value);
-});
-
 const app = new Vue({
   el: "#app",
   data: {
     goods: [],
     filteredGoods: [],
+    cart: {},
     searchLine: "",
+    isVisibleCart: false,
   },
   methods: {
     makeGETRequest(url, callback) {
@@ -102,11 +91,25 @@ const app = new Vue({
       xhr.open("GET", url, true);
       xhr.send();
     },
+
+    filterGoods(value) {
+      const regexp = new RegExp(value, "i");
+      this.filteredGoods = this.goods.filter((good) =>
+        regexp.test(good.product_name)
+      );
+    },
+
+    onSearch() {
+      this.filterGoods(this.searchLine);
+    },
   },
   mounted() {
     this.makeGETRequest(`${API_URL}/catalogData.json`, (goods) => {
       this.goods = JSON.parse(goods);
       this.filteredGoods = JSON.parse(goods);
+    });
+    this.makeGETRequest(`${API_URL}/getBasket.json`, (goods) => {
+      this.cart = JSON.parse(goods);
     });
   },
 });

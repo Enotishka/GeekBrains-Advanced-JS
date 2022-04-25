@@ -3,6 +3,7 @@ header {
   justify-content: end;
 }
 
+.cart,
 .goods-list {
   display: grid;
   grid-template-columns: repeat(6, 200px);
