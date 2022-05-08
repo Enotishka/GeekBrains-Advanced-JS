@@ -1,4 +1,9 @@
-header {
+.error-message {
+  font-size: 25px;
+  color: red;
+}
+
+.header {
   display: flex;
   justify-content: end;
 }
