@@ -1,5 +1,5 @@
 const API_URL =
-  "https://raw.1githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
+  "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
 
 const app = new Vue({
   el: "#app",
