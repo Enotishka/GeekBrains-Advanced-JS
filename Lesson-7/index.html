@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" defer></script>
+    <script src="js/goodsSearch.js" defer></script>
+    <script src="js/goodsList.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <script src="js/errorMessage.js" defer></script>
+    <script src="js/app.js" defer></script>
+    <title>eShop</title>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <error-message ref="error-message"></error-message>
+        <div class="header">
+          <goods-search
+            @search="$refs['goods-list'].filterGoods($event)"
+          ></goods-search>
+          <cart ref="cart"></cart>
+        </div>
+      </header>
+      <main>
+        <goods-list
+          @add-to-cart="$refs['cart'].add($event.id, $event.name, $event.price)"
+          ref="goods-list"
+        ></goods-list>
+      </main>
+    </div>
+  </body>
+</html>
