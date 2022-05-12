@@ -26,7 +26,7 @@
       </header>
       <main>
         <goods-list
-          @add-to-cart="$refs['cart'].add($event.id, $event.name, $event.price)"
+          @add-to-cart="$refs['cart'].add($event)"
           ref="goods-list"
         ></goods-list>
       </main>

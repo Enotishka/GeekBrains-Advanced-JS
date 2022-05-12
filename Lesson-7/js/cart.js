@@ -6,50 +6,69 @@ Vue.component("cart", {
     };
   },
   mounted() {
-    this.$root.getJson(`${API_URL}/getBasket.json`).then((data) => {
-      this.goods = data.contents.map(
-        ({ id_product, product_name, price, quantity }) => {
-          return {
-            id: id_product,
-            name: product_name,
-            price,
-            count: quantity,
-          };
-        }
-      );
-    });
+    this.get();
   },
   methods: {
-    add(id, name, price) {
-      this.$root.getJson(`${API_URL}/addToBasket.json`).then(({ result }) => {
-        if (result !== 1) {
-          console.warn("Could not add product to cart");
-          return;
-        }
-        let item = this.goods.find((item) => item.id == id);
-        if (!item) {
-          item = { id, name, price, count: 0 };
-          this.goods.push(item);
-        }
-        item.count++;
+    get() {
+      this.$root.get(`${API_URL}/cart`).then((data) => {
+        this.goods = data;
       });
     },
+    add(good) {
+      const found = this.goods.find(({ id }) => id == good.id);
+      if (found) {
+        this.$root
+          .post(
+            `${API_URL}/cart`,
+            "PUT",
+            Object.assign(good, { count: found.count + 1 })
+          )
+          .then(({ result }) => {
+            if (result !== 1) {
+              console.warn("Could not add product to cart");
+              return;
+            }
+            this.get();
+          });
+      } else {
+        this.$root
+          .post(`${API_URL}/cart`, "POST", Object.assign(good, { count: 1 }))
+          .then(({ result }) => {
+            if (result !== 1) {
+              console.warn("Could not add product to cart");
+              return;
+            }
+            this.get();
+          });
+      }
+    },
     remove(id) {
-      this.$root
-        .getJson(`${API_URL}/deleteFromBasket.json`)
-        .then(({ result }) => {
-          if (result !== 1) {
-            console.warn("Could not remove product from cart");
-            return;
-          }
-          let item = this.goods.find((item) => item.id == id);
-          if (!item) {
-            console.warn(`Could not find product with id ${id}`);
-            return;
-          }
-          item.count--;
-          this.goods = this.goods.filter((item) => item.count > 0);
-        });
+      const found = this.goods.find((item) => id == item.id);
+      if (!found) {
+        console.warn(`Could not find product with id: ${id}`);
+        return;
+      }
+      if (found.count > 1) {
+        this.$root
+          .post(`${API_URL}/cart`, "PUT", { id, count: found.count - 1 })
+          .then(({ result }) => {
+            if (result !== 1) {
+              console.warn("Could not remove product from cart");
+              return;
+            }
+            this.get();
+          });
+      } else {
+        this.$root
+          .post(`${API_URL}/cart`, "DELETE", { id })
+          .then(({ result }) => {
+            if (result !== 1) {
+              console.warn("Could not remove product from cart");
+              return;
+            }
+            this.get();
+          });
+      }
     },
   },
   template: `

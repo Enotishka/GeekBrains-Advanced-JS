@@ -6,10 +6,8 @@ Vue.component("goods-list", {
     };
   },
   mounted() {
-    this.$root.getJson(`/catalogData`).then((data) => {
-      this.goods = data.map(({ id_product, product_name, price }) => {
-        return { id: id_product, name: product_name, price };
-      });
+    this.$root.get(`${API_URL}/catalog`).then((data) => {
+      this.goods = data;
       this.filterGoods("");
     });
   },

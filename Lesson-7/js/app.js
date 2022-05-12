@@ -1,10 +1,9 @@
-const API_URL =
-  "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
+const API_URL = "";
 
 const app = new Vue({
   el: "#app",
   methods: {
-    getJson(url) {
+    get(url) {
       return fetch(url)
         .then((result) => result.json())
         .catch((error) => {
@@ -12,21 +11,15 @@ const app = new Vue({
           return Promise.reject(error);
         });
     },
-    makePOSTRequest(url, data, callback) {
-      let xhr;
-      if (window.XMLHttpRequest) {
-        xhr = new XMLHttpRequest();
-      } else if (window.ActiveXObject) {
-        xhr = new ActiveXObject("Microsoft.XMLHTTP");
-      }
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          callback(xhr.responseText);
-        }
-      };
-      xhr.open("POST", url, true);
-      xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
-      xhr.send(data);
+    post(url, method, data) {
+      console.log(`post() data: ${data}, str: '${JSON.stringify(data)}'`);
+      return fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify(data),
+      }).then((result) => result.json());
     },
   },
 });
