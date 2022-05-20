@@ -21,7 +21,7 @@ export default {
           <Cart ref="cart" />
         </div>
       </header>
-      <main>
+      <main class="container">
         <GoodsList
           @add-to-cart="$refs['cart'].add($event)"
           ref="goods-list"
