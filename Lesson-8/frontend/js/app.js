@@ -1,7 +1,14 @@
-const API_URL = "/api";
+import Router from "./router";
 
-const app = new Vue({
-  el: "#app",
+export default {
+  components: {
+    Router,
+  },
+  data() {
+    return {
+      apiUrl: "/api",
+    };
+  },
   methods: {
     get(url) {
       return fetch(url)
@@ -26,4 +33,7 @@ const app = new Vue({
       this.$refs["router"].routedProps = props;
     },
   },
-});
+  template: `
+    <Router ref="router" />
+  `,
+};

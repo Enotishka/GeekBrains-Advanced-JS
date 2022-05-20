@@ -1,8 +1,13 @@
-Vue.component("product-page", {
+import GoodsItem from "./goodsItem";
+
+export default {
+  components: {
+    GoodsItem,
+  },
   props: ["good"],
   template: `
     <div>
-      <goods-item @add-to-cart="$emit('add-to-cart', $event)" :good="good"></goods-item>
+      <GoodsItem @add-to-cart="$emit('add-to-cart', $event)" :good="good" />
     </div>
   `,
-});
+};

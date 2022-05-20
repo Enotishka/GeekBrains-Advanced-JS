@@ -1,4 +1,4 @@
-Vue.component("goods-search", {
+export default {
   data() {
     return {
       searchLine: "",
@@ -10,4 +10,4 @@ Vue.component("goods-search", {
       <button @click="$emit('search', searchLine)" class="search-button" type="button">Искать</button>
     </div>
   `,
-});
+};

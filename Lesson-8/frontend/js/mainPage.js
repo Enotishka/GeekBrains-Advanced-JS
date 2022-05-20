@@ -1,21 +1,32 @@
-Vue.component("main-page", {
+import ErrorMessage from "./errorMessage";
+import GoodsSearch from "./goodsSearch";
+import Cart from "./cart";
+import GoodsList from "./goodsList";
+
+export default {
+  components: {
+    ErrorMessage,
+    GoodsSearch,
+    Cart,
+    GoodsList,
+  },
   template: `
     <div>
       <header>
-        <error-message ref="error-message"></error-message>
+        <ErrorMessage ref="error-message" />
         <div class="header">
-          <goods-search
+          <GoodsSearch
             @search="$refs['goods-list'].filterGoods($event)"
-          ></goods-search>
-          <cart ref="cart"></cart>
+          />
+          <Cart ref="cart" />
         </div>
       </header>
       <main>
-        <goods-list
+        <GoodsList
           @add-to-cart="$refs['cart'].add($event)"
           ref="goods-list"
-        ></goods-list>
+        />
       </main>
     </div>
   `,
-});
+};

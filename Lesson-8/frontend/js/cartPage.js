@@ -1,4 +1,9 @@
-Vue.component("cart-page", {
+import CartItem from "./cartItem";
+
+export default {
+  components: {
+    CartItem,
+  },
   data() {
     return {
       goods: [],
@@ -9,15 +14,17 @@ Vue.component("cart-page", {
   },
   methods: {
     get() {
-      this.$root.get(`${API_URL}/cart`).then((data) => {
-        this.goods = data;
-      });
+      this.$root.$refs["app"]
+        .get(`${this.$root.$refs["app"].apiUrl}/cart`)
+        .then((data) => {
+          this.goods = data;
+        });
     },
   },
   template: `
     <div>
-      <button @click="$root.goTo('')">Назад</button>
-      <cart-item @remove-from-cart="remove($event.id)" v-for="good in goods" :good="good"></cart-item>
+      <button @click="$root.$refs['app'].goTo('')">Назад</button>
+      <CartItem @remove-from-cart="remove($event.id)" v-for="good in goods" :good="good" />
     </div>
   `,
-});
+};

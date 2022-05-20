@@ -4,7 +4,7 @@ const fs = require("fs");
 const app = express();
 
 const rootPath = `${__dirname}/../..`;
-const frontendPath = `${rootPath}/frontend`;
+const frontendPath = `${rootPath}/dist`;
 const backendPath = `${rootPath}/backend`;
 
 app.use(express.static(frontendPath));
