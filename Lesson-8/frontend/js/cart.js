@@ -15,18 +15,16 @@ export default {
   },
   methods: {
     get() {
-      this.$root.$refs["app"]
-        .get(`${this.$root.$refs["app"].apiUrl}/cart`)
-        .then((data) => {
-          this.goods = data;
-        });
+      this.$root.get(`${this.$root.apiUrl}/cart`).then((data) => {
+        this.goods = data;
+      });
     },
     add(good) {
       const found = this.goods.find(({ id }) => id == good.id);
       if (found) {
-        this.$root.$refs["app"]
+        this.$root
           .post(
-            `${this.$root.$refs["app"].apiUrl}/cart`,
+            `${this.$root.apiUrl}/cart`,
             "PUT",
             Object.assign(good, { count: found.count + 1 })
           )
@@ -38,9 +36,9 @@ export default {
             this.get();
           });
       } else {
-        this.$root.$refs["app"]
+        this.$root
           .post(
-            `${this.$root.$refs["app"].apiUrl}/cart`,
+            `${this.$root.apiUrl}/cart`,
             "POST",
             Object.assign(good, { count: 1 })
           )
@@ -60,8 +58,8 @@ export default {
         return;
       }
       if (found.count > 1) {
-        this.$root.$refs["app"]
-          .post(`${this.$root.$refs["app"].apiUrl}/cart`, "PUT", {
+        this.$root
+          .post(`${this.$root.apiUrl}/cart`, "PUT", {
             id,
             count: found.count - 1,
           })
@@ -73,8 +71,8 @@ export default {
             this.get();
           });
       } else {
-        this.$root.$refs["app"]
-          .post(`${this.$root.$refs["app"].apiUrl}/cart`, "DELETE", { id })
+        this.$root
+          .post(`${this.$root.apiUrl}/cart`, "DELETE", { id })
           .then(({ result }) => {
             if (result !== 1) {
               console.warn("Could not remove product from cart");
@@ -90,7 +88,7 @@ export default {
       <button @click="isVisible=!isVisible" class="cart-button" type="button">Корзина</button>
       <div v-if="isVisible">
         <CartItem @remove-from-cart="remove($event.id)" v-for="good in goods" :good="good" />
-        <button @click="$root.$refs['app'].goTo('#cart')">Оформить заказ</button>
+        <button @click="$root.goTo('#cart')">Оформить заказ</button>
       </div>
     </div>
   `,

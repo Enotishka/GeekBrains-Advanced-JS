@@ -25,6 +25,12 @@ export default {
         .component;
     },
   },
+  methods: {
+    goTo(path, props) {
+      this.currentPath = path;
+      this.routedProps = props;
+    },
+  },
   template: `
     <div>
       <component :is="routedComponent" v-bind="routedProps"></component>

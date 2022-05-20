@@ -11,12 +11,10 @@ export default {
     };
   },
   mounted() {
-    this.$root.$refs["app"]
-      .get(`${this.$root.$refs["app"].apiUrl}/catalog`)
-      .then((data) => {
-        this.goods = data;
-        this.filterGoods("");
-      });
+    this.$root.get(`${this.$root.apiUrl}/catalog`).then((data) => {
+      this.goods = data;
+      this.filterGoods("");
+    });
   },
   methods: {
     filterGoods(value) {
