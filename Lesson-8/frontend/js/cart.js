@@ -86,9 +86,9 @@ export default {
   template: `
     <div class="cart">
       <button @click="isVisible=!isVisible" class="cart-button" type="button">Корзина</button>
-      <div v-if="isVisible">
+      <div v-if="isVisible" class="cart-popup">
         <CartItem @remove-from-cart="remove($event.id)" v-for="good in goods" :good="good" />
-        <button @click="$root.goTo('#cart')">Оформить заказ</button>
+        <button @click="$root.goTo('#cart')" class="cart-page-button">Оформить заказ</button>
       </div>
     </div>
   `,

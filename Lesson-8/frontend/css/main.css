@@ -38,3 +38,27 @@
   background-color: rgb(177, 219, 219);
   padding: 10px;
 }
+
+.cart-popup {
+  position: absolute;
+  right: 0px;
+  top: 45px;
+  background-color: white;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border: solid 1px black;
+  gap: 10px;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 40px 120px 60px 35px 100px;
+  align-items: center;
+  padding: 10px;
+}
+
+.cart-page-button {
+  align-self: center;
+  padding: 10px 20px;
+}
