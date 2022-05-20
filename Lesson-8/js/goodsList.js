@@ -31,6 +31,7 @@ Vue.component("goods-item", {
       <h3>{{ good.name }}</h3>
       <p>{{ good.price }}</p>
       <button @click="$emit('add-to-cart', good)" class="buy-btn">Добавить</button>
+      <button @click="$root.goTo('#product', {good})">Подробнее</button>
     </div>
   `,
 });

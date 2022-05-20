@@ -76,6 +76,7 @@ Vue.component("cart", {
       <button @click="isVisible=!isVisible" class="cart-button" type="button">Корзина</button>
       <div v-if="isVisible">
         <cart-item @remove-from-cart="remove($event.id)" v-for="good in goods" :good="good"></cart-item>
+        <button @click="$root.goTo('#cart')">Оформить заказ</button>
       </div>
     </div>
   `,

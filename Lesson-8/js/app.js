@@ -1,4 +1,4 @@
-const API_URL = "";
+const API_URL = "/api";
 
 const app = new Vue({
   el: "#app",
@@ -20,6 +20,10 @@ const app = new Vue({
         },
         body: JSON.stringify(data),
       }).then((result) => result.json());
+    },
+    goTo(path, props) {
+      this.$refs["router"].currentPath = path;
+      this.$refs["router"].routedProps = props;
     },
   },
 });

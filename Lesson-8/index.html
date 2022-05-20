@@ -10,26 +10,19 @@
     <script src="js/goodsList.js" defer></script>
     <script src="js/cart.js" defer></script>
     <script src="js/errorMessage.js" defer></script>
+    <script src="js/mainPage.js" defer></script>
+    <script src="js/cartPage.js" defer></script>
+    <script src="js/productPage.js" defer></script>
+    <script src="js/router.js" defer></script>
     <script src="js/app.js" defer></script>
     <title>eShop</title>
   </head>
   <body>
     <div id="app">
-      <header>
-        <error-message ref="error-message"></error-message>
-        <div class="header">
-          <goods-search
-            @search="$refs['goods-list'].filterGoods($event)"
-          ></goods-search>
-          <cart ref="cart"></cart>
-        </div>
-      </header>
-      <main>
-        <goods-list
-          @add-to-cart="$refs['cart'].add($event)"
-          ref="goods-list"
-        ></goods-list>
-      </main>
+      <router
+        ref="router"
+        :routes="[{path: '', component: 'main-page'}, {path: '#cart', component: 'cart-page'}, {path: '#product', component: 'product-page'}]"
+      ></router>
     </div>
   </body>
 </html>

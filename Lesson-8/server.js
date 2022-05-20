@@ -6,21 +6,21 @@ const app = express();
 app.use(express.static("."));
 app.use(bodyParser.json());
 
-app.get("/catalog", (req, res) => {
+app.get("/api/catalog", (req, res) => {
   console.log("GET /catalog");
   fs.readFile("json/catalog.json", "utf8", (err, data) => {
     console.log(`data: ${data}`);
     res.send(data);
   });
 });
-app.get("/cart", (req, res) => {
+app.get("/api/cart", (req, res) => {
   console.log("GET /cart");
   fs.readFile("json/cart.json", "utf8", (err, data) => {
     console.log(`data: ${data}`);
     res.send(data);
   });
 });
-app.post("/cart", (req, res) => {
+app.post("/api/cart", (req, res) => {
   console.log("POST /cart");
   fs.readFile("json/cart.json", "utf8", (err, data) => {
     if (err) {
@@ -45,7 +45,7 @@ app.post("/cart", (req, res) => {
     });
   });
 });
-app.put("/cart", (req, res) => {
+app.put("/api/cart", (req, res) => {
   console.log("PUT /cart");
   fs.readFile("json/cart.json", "utf8", (err, data) => {
     if (err) {
@@ -70,7 +70,7 @@ app.put("/cart", (req, res) => {
     });
   });
 });
-app.delete("/cart", (req, res) => {
+app.delete("/api/cart", (req, res) => {
   console.log("DELETE /cart");
   fs.readFile("json/cart.json", "utf8", (err, data) => {
     if (err) {
