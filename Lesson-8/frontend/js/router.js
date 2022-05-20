@@ -11,11 +11,11 @@ export default {
   data() {
     return {
       routes: [
-        { path: "", component: "MainPage" },
+        { path: "#", component: "MainPage" },
         { path: "#cart", component: "CartPage" },
         { path: "#product", component: "ProductPage" },
       ],
-      currentPath: window.location.hash,
+      currentPath: this.fixHashedPath(window.location.hash),
       routedProps: {},
     };
   },
@@ -27,8 +27,12 @@ export default {
   },
   methods: {
     goTo(path, props) {
-      this.currentPath = path;
+      this.currentPath = this.fixHashedPath(path);
       this.routedProps = props;
+      window.history.pushState({}, "", window.location.pathname + path);
+    },
+    fixHashedPath(path) {
+      return path === "" ? "#" : path;
     },
   },
   template: `
