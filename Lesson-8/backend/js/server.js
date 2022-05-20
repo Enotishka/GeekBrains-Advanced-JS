@@ -1,28 +1,35 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
-const { rejects } = require("assert");
 const app = express();
-app.use(express.static("."));
+
+const rootPath = `${__dirname}/../..`;
+const frontendPath = `${rootPath}/frontend`;
+const backendPath = `${rootPath}/backend`;
+
+app.use(express.static(frontendPath));
 app.use(bodyParser.json());
 
 app.get("/api/catalog", (req, res) => {
   console.log("GET /catalog");
-  fs.readFile("json/catalog.json", "utf8", (err, data) => {
+  const jsonPath = `${backendPath}/json/catalog.json`;
+  fs.readFile(jsonPath, "utf8", (err, data) => {
     console.log(`data: ${data}`);
     res.send(data);
   });
 });
 app.get("/api/cart", (req, res) => {
   console.log("GET /cart");
-  fs.readFile("json/cart.json", "utf8", (err, data) => {
+  const jsonPath = `${backendPath}/json/cart.json`;
+  fs.readFile(jsonPath, "utf8", (err, data) => {
     console.log(`data: ${data}`);
     res.send(data);
   });
 });
 app.post("/api/cart", (req, res) => {
   console.log("POST /cart");
-  fs.readFile("json/cart.json", "utf8", (err, data) => {
+  const jsonPath = `${backendPath}/json/cart.json`;
+  fs.readFile(jsonPath, "utf8", (err, data) => {
     if (err) {
       res.send('{"result": 0}');
       return;
@@ -31,7 +38,7 @@ app.post("/api/cart", (req, res) => {
     const cart = JSON.parse(data);
     const item = req.body;
     cart.push(item);
-    fs.writeFile("json/cart.json", JSON.stringify(cart), (err) => {
+    fs.writeFile(jsonPath, JSON.stringify(cart), (err) => {
       if (err) {
         res.send('{"result": 0}');
       } else {
@@ -47,7 +54,8 @@ app.post("/api/cart", (req, res) => {
 });
 app.put("/api/cart", (req, res) => {
   console.log("PUT /cart");
-  fs.readFile("json/cart.json", "utf8", (err, data) => {
+  const jsonPath = `${backendPath}/json/cart.json`;
+  fs.readFile(jsonPath, "utf8", (err, data) => {
     if (err) {
       res.send('{"result": 0}');
       return;
@@ -61,7 +69,7 @@ app.put("/api/cart", (req, res) => {
       return;
     }
     Object.assign(found, item);
-    fs.writeFile("json/cart.json", JSON.stringify(cart), (err) => {
+    fs.writeFile(jsonPath, JSON.stringify(cart), (err) => {
       if (err) {
         res.send('{"result": 0}');
       } else {
@@ -72,7 +80,8 @@ app.put("/api/cart", (req, res) => {
 });
 app.delete("/api/cart", (req, res) => {
   console.log("DELETE /cart");
-  fs.readFile("json/cart.json", "utf8", (err, data) => {
+  const jsonPath = `${backendPath}/json/cart.json`;
+  fs.readFile(jsonPath, "utf8", (err, data) => {
     if (err) {
       res.send('{"result": 0}');
       return;
@@ -86,7 +95,7 @@ app.delete("/api/cart", (req, res) => {
       return;
     }
     const deleted = cart.splice(index, 1)[0];
-    fs.writeFile("json/cart.json", JSON.stringify(cart), (err) => {
+    fs.writeFile(jsonPath, JSON.stringify(cart), (err) => {
       if (err) {
         res.send('{"result": 0}');
       } else {
@@ -103,14 +112,15 @@ app.delete("/api/cart", (req, res) => {
 
 function writeStats(item) {
   return new Promise((resolve, reject) => {
-    fs.readFile("json/stats.json", "utf8", (err, data) => {
+    const jsonPath = `${backendPath}/json/stats.json`;
+    fs.readFile(jsonPath, "utf8", (err, data) => {
       if (err) {
         reject("Could not read file stats.json");
         return;
       }
       const stats = JSON.parse(data);
       stats.push(item);
-      fs.writeFile("json/stats.json", JSON.stringify(stats), (err) => {
+      fs.writeFile(jsonPath, JSON.stringify(stats), (err) => {
         if (err) {
           reject("Could not write file stats.json");
           return;
