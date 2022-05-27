@@ -1,4 +1,4 @@
-Vue.component("error-message", {
+export default {
   data() {
     return {
       error: "",
@@ -17,4 +17,4 @@ Vue.component("error-message", {
   template: `
     <div @click="hide()" v-if="isVisible" class="error-message">{{ error }}</div>
   `,
-});
+};

@@ -1,7 +1,15 @@
-const API_URL = "";
+import Vue from "vue";
+import "../css/main.css";
+import App from "./app.js";
 
-const app = new Vue({
+new Vue({
   el: "#app",
+  components: {
+    App,
+  },
+  data: {
+    apiUrl: "/api",
+  },
   methods: {
     get(url) {
       return fetch(url)
@@ -21,5 +29,11 @@ const app = new Vue({
         body: JSON.stringify(data),
       }).then((result) => result.json());
     },
+    goTo(path, props) {
+      this.$root.$refs["app"].$refs["router"].goTo(path, props);
+    },
   },
+  template: `
+    <App ref="app"/>
+  `,
 });

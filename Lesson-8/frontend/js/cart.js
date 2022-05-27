@@ -1,4 +1,9 @@
-Vue.component("cart", {
+import CartItem from "./cartItem";
+
+export default {
+  components: {
+    CartItem,
+  },
   data() {
     return {
       goods: [],
@@ -10,7 +15,7 @@ Vue.component("cart", {
   },
   methods: {
     get() {
-      this.$root.get(`${API_URL}/cart`).then((data) => {
+      this.$root.get(`${this.$root.apiUrl}/cart`).then((data) => {
         this.goods = data;
       });
     },
@@ -19,7 +24,7 @@ Vue.component("cart", {
       if (found) {
         this.$root
           .post(
-            `${API_URL}/cart`,
+            `${this.$root.apiUrl}/cart`,
             "PUT",
             Object.assign(good, { count: found.count + 1 })
           )
@@ -32,7 +37,11 @@ Vue.component("cart", {
           });
       } else {
         this.$root
-          .post(`${API_URL}/cart`, "POST", Object.assign(good, { count: 1 }))
+          .post(
+            `${this.$root.apiUrl}/cart`,
+            "POST",
+            Object.assign(good, { count: 1 })
+          )
           .then(({ result }) => {
             if (result !== 1) {
               console.warn("Could not add product to cart");
@@ -50,7 +59,10 @@ Vue.component("cart", {
       }
       if (found.count > 1) {
         this.$root
-          .post(`${API_URL}/cart`, "PUT", { id, count: found.count - 1 })
+          .post(`${this.$root.apiUrl}/cart`, "PUT", {
+            id,
+            count: found.count - 1,
+          })
           .then(({ result }) => {
             if (result !== 1) {
               console.warn("Could not remove product from cart");
@@ -60,7 +72,7 @@ Vue.component("cart", {
           });
       } else {
         this.$root
-          .post(`${API_URL}/cart`, "DELETE", { id })
+          .post(`${this.$root.apiUrl}/cart`, "DELETE", { id })
           .then(({ result }) => {
             if (result !== 1) {
               console.warn("Could not remove product from cart");
@@ -74,22 +86,10 @@ Vue.component("cart", {
   template: `
     <div class="cart">
       <button @click="isVisible=!isVisible" class="cart-button" type="button">Корзина</button>
-      <div v-if="isVisible">
-        <cart-item @remove-from-cart="remove($event.id)" v-for="good in goods" :good="good"></cart-item>
+      <div v-if="isVisible" class="cart-popup">
+        <CartItem @remove-from-cart="remove($event.id)" v-for="good in goods" :good="good" />
+        <button @click="$root.goTo('#cart')" class="cart-page-button">Оформить заказ</button>
       </div>
     </div>
   `,
-});
-
-Vue.component("cart-item", {
-  props: ["good"],
-  template: `
-    <div class="cart-item">
-      <p>{{ good.id }}</p>
-      <h3>{{ good.name }}</h3>
-      <p>{{ good.price }}</p>
-      <p>{{ good.count }}</p>
-      <button @click="$emit('remove-from-cart', good)" >Удалить</button>
-    </div>
-  `,
-});
+};
